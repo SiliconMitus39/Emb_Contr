@@ -1,0 +1,131 @@
+;
+; EC GENVIF, Version 1.1 
+;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Intro tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+$VIF_Specification: "Revision 1.22, Version 1.0"
+$VIF_Producer: "build/pdeval-stm32f072/util/genvif"
+UUT_Device_Type: 4 ; DRP
+$Vendor_Name: "Google"
+$Product_Name: "pdeval-stm32f072"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   General PD Settings tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Specification_Revision: 1
+SOP_Capable: YES
+SOP_P_Capable: NO
+SOP_PP_Capable: NO
+SOP_P_Debug_Capable: NO
+SOP_PP_Debug_Capable: NO
+USB_Comms_Capable: NO
+DR_Swap_To_DFP_Supported: YES
+DR_Swap_To_UFP_Supported: YES
+Unconstrained_Powered: NO
+VCONN_Swap_To_On_Supported: YES
+VCONN_Swap_To_Off_Supported: YES
+Responds_To_Discov_SOP: YES
+Attempts_Discov_SOP: YES
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   USB Type-C tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Type_C_State_Machine: 2 ; DRP
+Type_C_Implements_Try_SRC: NO
+Type_C_Implements_Try_SNK: NO
+Rp_Value: 0
+Type_C_Is_VCONN_Powered_Accessory: NO
+Type_C_Supports_VCONN_Powered_Accessory: NO
+Type_C_Is_Debug_Target_SRC: YES
+Type_C_Is_Debug_Target_SNK: YES
+Type_C_Can_Act_As_Host: NO
+Type_C_Host_Speed: 4
+Type_C_Can_Act_As_Device: YES
+Type_C_Device_Speed: 4
+Type_C_Is_Alt_Mode_Controller: YES
+Type_C_Is_Alt_Mode_Device: NO
+Type_C_Power_Source: 2
+Type_C_BC_1_2_Support: 1
+Type_C_Battery_Powered: NO
+Type_C_Port_On_Hub: NO
+Type_C_Supports_Audio_Accessory: NO
+Captive_Cable: NO
+Type_C_Source_Vconn: YES
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Source tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Power_as_Source: 15000
+USB_Suspend_May_Be_Cleared: YES
+Sends_Pings: NO
+Num_Src_PDOs: 1
+
+	Src_PDO_Supply_Type1: 0
+	Src_PDO_Peak_Current1: 0
+	Src_PDO_Voltage1: 100
+	Src_PDO_Max_Current1: 300
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Sink tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+PD_Power_as_Sink: 4500
+USB_Suspend_May_Be_Cleared: NO
+GiveBack_May_Be_Set: NO
+Higher_Capability_Set: NO
+Num_Snk_PDOs: 2
+
+	Snk_PDO_Supply_Type1: 0
+	Snk_PDO_Voltage1: 100
+	Snk_PDO_Op_Current1: 90
+
+	Snk_PDO_Supply_Type2: 1
+	Snk_PDO_Min_Voltage2: 100
+	Snk_PDO_Max_Voltage2: 420
+	Snk_PDO_Op_Power2: 120
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   Dual Role tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Accepts_PR_Swap_As_Src: YES
+Accepts_PR_Swap_As_Snk: YES
+Requests_PR_Swap_As_Src: YES
+Requests_PR_Swap_As_Snk: YES
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   SOP Discovery - Part One tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Structured_VDM_Version_SOP: 0
+XID_SOP: 0
+Data_Capable_as_USB_Host_SOP: NO
+Data_Capable_as_USB_Device_SOP: YES
+Product_Type_SOP: 0
+Modal_Operation_Supported_SOP: YES
+USB_VID_SOP: 0x18d1
+PID_SOP: 0x500f
+bcdDevice_SOP: 0x0000
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;   SOP Discovery - Part Two tab
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+SVID_fixed_SOP: YES
+Num_SVIDs_min_SOP: 2
+Num_SVIDs_max_SOP: 2
+
+	SVID1_SOP: 0x18d1
+	SVID1_modes_fixed_SOP: YES
+	SVID1_num_modes_min_SOP: 1
+	SVID1_num_modes_max_SOP: 1
+	SVID1_mode1_enter_SOP: YES
+
+	SVID2_SOP: 0xff01
+	SVID2_modes_fixed_SOP: YES
+	SVID2_num_modes_min_SOP: 2
+	SVID2_num_modes_max_SOP: 2
+	SVID2_mode1_enter_SOP: YES
+	SVID2_mode2_enter_SOP: YES
