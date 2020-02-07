@@ -10,7 +10,7 @@
 
 /* Inputs */
 //GPIO_INT(CHARGER_INT_L, PIN(C, 13)	PIN(B, 3), GPIO_INT_RISING, sm5803_vbus_interrupt)		/* CHARGER_EC_INT_ODL from sm5803 */
-GPIO_INT(USER_BUTTON, PIN(B, 13), GPIO_INT_FALLING, button_event)
+GPIO_INT(USER_BUTTON, PIN(C, 7), GPIO_INT_FALLING, button_event)
 //#ifdef CTS_MODULE
 //#ifndef CTS_MODULE_GPIO
 ///* Overload C1 for interrupt. Enabled only for non-GPIO suites as
@@ -30,8 +30,8 @@ GPIO_INT(USER_BUTTON, PIN(B, 13), GPIO_INT_FALLING, button_event)
 GPIO(LED_U, PIN(A, 5), GPIO_OUT_LOW)
 
 /* Unimplemented signals which we need to emulate for now */
-//UNIMPLEMENTED(ENTERING_RW)
-//UNIMPLEMENTED(WP_L)
+UNIMPLEMENTED(ENTERING_RW)
+UNIMPLEMENTED(WP_L)
 
 ALTERNATE(PIN_MASK(A, 0x000C), 1, MODULE_UART,  0) /* USART2: PA2/PA3 */
 
