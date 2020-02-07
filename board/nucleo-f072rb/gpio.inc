@@ -9,19 +9,19 @@
  * Note: Those with interrupt handlers must be declared first. */
 
 /* Inputs */
-//GPIO_INT(CHARGER_INT_L,	PIN(B, 3), GPIO_INT_RISING, sm5803_vbus_interrupt)		/* CHARGER_EC_INT_ODL from sm5803 */
-GPIO_INT(USER_BUTTON, PIN(C, 13), GPIO_INT_FALLING, button_event)
-#ifdef CTS_MODULE
-#ifndef CTS_MODULE_GPIO
-/* Overload C1 for interrupt. Enabled only for non-GPIO suites as
- * GPIO tests don't require a separate notification line. */
-GPIO_INT(CTS_IRQ1, PIN(C, 1), GPIO_INT_FALLING | GPIO_PULL_UP , cts_irq1)
-/* Used to disable interrupt. This IRQ# has to match the number used for the
- * pin set above */
-#define CTS_IRQ_NUMBER STM32_IRQ_EXTI0_1
-#endif
-GPIO_INT(CTS_IRQ2, PIN(C, 2), GPIO_INT_FALLING | GPIO_PULL_UP , cts_irq2)
-#endif
+//GPIO_INT(CHARGER_INT_L, PIN(C, 13)	PIN(B, 3), GPIO_INT_RISING, sm5803_vbus_interrupt)		/* CHARGER_EC_INT_ODL from sm5803 */
+GPIO_INT(USER_BUTTON, PIN(B, 13), GPIO_INT_FALLING, button_event)
+//#ifdef CTS_MODULE
+//#ifndef CTS_MODULE_GPIO
+///* Overload C1 for interrupt. Enabled only for non-GPIO suites as
+// * GPIO tests don't require a separate notification line. */
+//GPIO_INT(CTS_IRQ1, PIN(C, 1), GPIO_INT_FALLING | GPIO_PULL_UP , cts_irq1)
+///* Used to disable interrupt. This IRQ# has to match the number used for the
+// * pin set above */
+//#define CTS_IRQ_NUMBER STM32_IRQ_EXTI0_1
+//#endif
+//GPIO_INT(CTS_IRQ2, PIN(C, 2), GPIO_INT_FALLING | GPIO_PULL_UP , cts_irq2)
+//#endif
 
 
 /* Outputs */
@@ -30,8 +30,8 @@ GPIO_INT(CTS_IRQ2, PIN(C, 2), GPIO_INT_FALLING | GPIO_PULL_UP , cts_irq2)
 GPIO(LED_U, PIN(A, 5), GPIO_OUT_LOW)
 
 /* Unimplemented signals which we need to emulate for now */
-UNIMPLEMENTED(ENTERING_RW)
-UNIMPLEMENTED(WP_L)
+//UNIMPLEMENTED(ENTERING_RW)
+//UNIMPLEMENTED(WP_L)
 
 ALTERNATE(PIN_MASK(A, 0x000C), 1, MODULE_UART,  0) /* USART2: PA2/PA3 */
 
@@ -42,12 +42,12 @@ GPIO(I2C0_SDA, PIN(B, 7), GPIO_ODR_HIGH) /* I2C port 0 SDA */
 /* I2C0: PB6/7*/
 ALTERNATE(PIN_MASK(B, 0x00C0), GPIO_ALT_F1, MODULE_I2C, GPIO_PULL_UP)
 
-#ifdef CTS_MODULE
-/* CTS Signals */
-GPIO(HANDSHAKE_INPUT, PIN(A, 4), GPIO_INPUT | GPIO_PULL_UP)
-GPIO(HANDSHAKE_OUTPUT, PIN(B, 0), GPIO_ODR_LOW)
-#ifdef CTS_MODULE_GPIO
-GPIO(INPUT_TEST, PIN(C, 1), GPIO_INPUT | GPIO_PULL_UP)
-#endif
-GPIO(OUTPUT_TEST, PIN(C, 0), GPIO_ODR_LOW)
-#endif
+//#ifdef CTS_MODULE
+///* CTS Signals */
+//GPIO(HANDSHAKE_INPUT, PIN(A, 4), GPIO_INPUT | GPIO_PULL_UP)
+//GPIO(HANDSHAKE_OUTPUT, PIN(B, 0), GPIO_ODR_LOW)
+//#ifdef CTS_MODULE_GPIO
+//GPIO(INPUT_TEST, PIN(C, 1), GPIO_INPUT | GPIO_PULL_UP)
+//#endif
+//GPIO(OUTPUT_TEST, PIN(C, 0), GPIO_ODR_LOW)
+//#endif

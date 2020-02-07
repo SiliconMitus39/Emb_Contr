@@ -47,6 +47,7 @@
 void button_event(enum gpio_signal signal)
 {
 	gpio_set_level(GPIO_LED_U, 1);
+
 }
 
 #ifdef CTS_MODULE
