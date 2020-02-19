@@ -13,7 +13,7 @@
 # This is used to exclude build targets that depend on sanitizers such as
 # fuzzers on architectures that don't support sanitizers yet (e.g. arm).
 ARCH?=x84_64
-BOARD ?=nucleo-f072rb#nucleo-f072rb#aleena#pdeval-stm32f072#nucleo-f072rb
+BOARD ?=pdeval-stm32f072#hoho#pdeval-stm32f072#nucleo-f072rb#aleena#pdeval-stm32f072#nucleo-f072rb
 
 # Directory where the board is configured (includes /$(BOARD) at the end)
 BDIR:=$(wildcard board/$(BOARD))

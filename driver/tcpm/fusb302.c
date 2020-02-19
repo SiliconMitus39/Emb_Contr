@@ -1118,7 +1118,7 @@ static int fusb302_compare_mdac(int port, int mdac)
 
 	return status0 & TCPC_REG_STATUS0_COMP;
 }
-
+/* API_1*/
 int tcpc_get_vbus_voltage(int port)
 {
 	int mdac = 0, i;
@@ -1158,3 +1158,4 @@ const struct tcpm_drv fusb302_tcpm_drv = {
 	.enter_low_power_mode	= &fusb302_tcpm_enter_low_power_mode,
 #endif
 };
+

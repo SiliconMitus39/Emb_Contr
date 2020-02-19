@@ -1647,7 +1647,7 @@ __override_proto int pd_check_power_swap(int port);
  * @param data_role current data role
  * @return True if data swap is allowed, False otherwise
  */
-__override_proto int pd_check_data_swap(int port, int data_role);
+__override_proto int pd_check_data_swap(int port, enum pd_data_role data_role);
 
 /**
  * Check if vconn swap is allowed.
@@ -1665,7 +1665,7 @@ int pd_check_vconn_swap(int port);
  * @param pr_role Our power role
  * @param flags PD flags
  */
-__override_proto void pd_check_pr_role(int port, int pr_role, int flags);
+__override_proto void pd_check_pr_role(int port, enum pd_power_role pr_role, int flags);
 
 /**
  * Check current data role for potential data swap
@@ -1674,7 +1674,7 @@ __override_proto void pd_check_pr_role(int port, int pr_role, int flags);
  * @param dr_role Our data role
  * @param flags PD flags
  */
-__override_proto void pd_check_dr_role(int port, int dr_role, int flags);
+__override_proto void pd_check_dr_role(int port, enum pd_data_role dr_role, int flags);
 
 /**
  * Check if we should charge from this device. This is

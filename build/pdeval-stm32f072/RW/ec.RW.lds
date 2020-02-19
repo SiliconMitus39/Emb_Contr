@@ -2629,6 +2629,7 @@
 /* the UART console is on USART2 (PA14/PA15) */
 /* Optional features */
 /* USB Power Delivery configuration */
+/*#define CONFIG_USB_PD_TCPM_ANX7447*/
 /* fake board specific type-C power constants */
 /* Define typical operating power and max power */
 /* I2C master port connected to the TCPC */

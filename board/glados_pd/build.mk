@@ -6,14 +6,16 @@
 # Board specific files build
 
 # the IC is STmicro STM32F051C8T
+#CHIP:=stm32
+#CHIP_FAMILY:=stm32f0
+#CHIP_VARIANT:=stm32f05x
 CHIP:=stm32
 CHIP_FAMILY:=stm32f0
-CHIP_VARIANT:=stm32f05x
-
+CHIP_VARIANT:=stm32f07x
 # Not enough SRAM: Disable all tests
-test-list-y=
+#test-list-y=
 
 board-y=board.o
 
 # This target builds RW only.  Therefore, remove RO from dependencies.
-all_deps=$(patsubst ro,,$(def_all_deps))
+#all_deps=$(patsubst ro,,$(def_all_deps))

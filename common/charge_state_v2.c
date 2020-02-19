@@ -797,7 +797,7 @@ static int update_static_battery_info(void)
 		*host_get_memmap(EC_MEMMAP_BATTERY_VERSION) = 1;
 
 	return rv;
-//return 0;
+
 }
 static void update_dynamic_battery_info(void)
 {

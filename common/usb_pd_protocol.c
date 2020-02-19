@@ -3379,6 +3379,7 @@ void pd_task(void *u)
 
 #ifndef CONFIG_USBC_BACKWARDS_COMPATIBLE_DFP
 				/* Enable VBUS */
+				CPRINTS("TestPoint 7");
 				if (pd_set_power_supply_ready(port)) {
 #ifdef CONFIG_USBC_VCONN
 					/* Stop sourcing Vconn if Vbus failed */
@@ -3435,6 +3436,7 @@ void pd_task(void *u)
 
 			/* Enable VBUS */
 			timeout = 10*MSEC;
+			CPRINTS("TestPoint 8");
 			if (pd_set_power_supply_ready(port)) {
 				set_state(port, PD_STATE_SRC_DISCONNECTED);
 				break;

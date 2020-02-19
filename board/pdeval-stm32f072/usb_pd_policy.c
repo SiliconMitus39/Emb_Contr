@@ -4,7 +4,7 @@
  */
 
 #include "common.h"
-#include "anx7447.h"
+#include "fusb302.h"
 #include "console.h"
 #include "gpio.h"
 #include "hooks.h"
@@ -84,7 +84,7 @@ void pd_power_supply_reset(int port)
 	/* Turn off the "up" LED when we shutdown VBUS */
 	gpio_set_level(GPIO_LED_U, 0);
 	/* Disable VBUS */
-	CPRINTS("Disable VBUS", port);
+	CPRINTS("Disable VBUS port %d", port);
 }
 #endif /* CONFIG_USB_PD_TCPM_ANX7447 */
 
@@ -135,8 +135,7 @@ int pd_snk_is_vbus_provided(int port)
 	return vbus_present;
 }
 
-__override int pd_check_data_swap(int port,
-				  int data_role)
+__override int pd_check_data_swap(int port, enum pd_data_role  data_role)
 {
 	/* Always allow data swap */
 	return 1;
@@ -154,18 +153,12 @@ int pd_check_vconn_swap(int port)
 }
 #endif
 
-__override void pd_check_pr_role(int port,
-				 int pr_role,
-				 int flags)
+__override void pd_check_pr_role(int port, enum pd_power_role pr_role, int flags)
 {
-	//enum pd_power_role pr_role_enum = pr_role;
 }
 
-__override void pd_check_dr_role(int port,
-		int  dr_role,
-				 int flags)
+__override void pd_check_dr_role(int port, enum pd_data_role dr_role, int flags)
 {
-	//enum pd_power_role dr_role_enum = dr_role;
 }
 /* ----------------- Vendor Defined Messages ------------------ */
 const uint32_t vdo_idh = VDO_IDH(1, /* data caps as USB host */
@@ -195,7 +188,7 @@ __override void svdm_safe_dp_mode(int port)
 {
 	/* make DP interface safe until configure */
 	dp_flags[port] = 0;
-	/* board_set_usb_mux(port, USB_PD_MUX_NONE, pd_get_polarity(port)); */
+	/* board_set_usb_mux(port, TYPEC_MUX_NONE, pd_get_polarity(port)); */
 }
 
 __override int svdm_dp_config(int port, uint32_t *payload)
@@ -204,9 +197,9 @@ __override int svdm_dp_config(int port, uint32_t *payload)
 	int pin_mode = pd_dfp_dp_get_pin_mode(port, dp_status[port]);
 
 #ifdef CONFIG_USB_PD_TCPM_ANX7447
-	mux_state_t mux_state = USB_PD_MUX_NONE;
+	mux_state_t mux_state = TYPEC_MUX_NONE;
 	if (pd_get_polarity(port))
-		mux_state |= USB_PD_MUX_POLARITY_INVERTED;
+		mux_state |= MUX_POLARITY_INVERTED;
 #endif
 
 	CPRINTS("pin_mode = %d", pin_mode);
@@ -218,22 +211,19 @@ __override int svdm_dp_config(int port, uint32_t *payload)
 	case MODE_DP_PIN_A:
 	case MODE_DP_PIN_C:
 	case MODE_DP_PIN_E:
-		mux_state |= USB_PD_MUX_DP_ENABLED;
+		mux_state |= TYPEC_MUX_DP;
 		usb_muxes[port].driver->set(port, mux_state);
 		break;
 	case MODE_DP_PIN_B:
 	case MODE_DP_PIN_D:
 	case MODE_DP_PIN_F:
-		mux_state |= USB_PD_MUX_DOCK;
+		mux_state |= TYPEC_MUX_DOCK;
 		usb_muxes[port].driver->set(port, mux_state);
 		break;
 	}
 #endif
 
-	/*
-	 * board_set_usb_mux(port, USB_PD_MUX_DP_ENABLED,
-	 * pd_get_polarity(port));
-	 */
+	/* board_set_usb_mux(port, TYPEC_MUX_DP, pd_get_polarity(port)); */
 	payload[0] = VDO(USB_SID_DISPLAYPORT, 1,
 			 CMD_DP_CONFIG | VDO_OPOS(opos));
 	payload[1] = VDO_DP_CFG(pin_mode, /* pin mode */

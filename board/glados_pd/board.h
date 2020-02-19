@@ -14,25 +14,10 @@
  * useful for debugging to have a full console. Otherwise, without this task,
  * a full RO and RW is built with a limited one-way output console.
  */
-#ifdef HAS_TASK_CONSOLE
-/*
- * The flash size is only 32kB.
- * No space for 2 partitions,
- * put only RW at the beginning of the flash
- */
-#undef CONFIG_FW_INCLUDE_RO
-#undef CONFIG_RW_MEM_OFF
-#define CONFIG_RW_MEM_OFF 0
-#undef CONFIG_RO_SIZE
-#define CONFIG_RO_SIZE 0
-/* Fake full size if we had a RO partition */
-#undef CONFIG_RW_SIZE
-#define CONFIG_RW_SIZE CONFIG_FLASH_SIZE
-#endif /* HAS_TASK_CONSOLE */
+
 
 /* 48 MHz SYSCLK clock frequency */
-#define CPU_CLOCK 48000000
-
+#define CPU_C
 /* the UART console is on USART1 (PA9/PA10) */
 #undef  CONFIG_UART_CONSOLE
 #define CONFIG_UART_CONSOLE 1

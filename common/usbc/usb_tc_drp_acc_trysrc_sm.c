@@ -614,6 +614,7 @@ void tc_snk_power_off(int port)
 int tc_src_power_on(int port)
 {
 	if (get_state_tc(port) == TC_ATTACHED_SRC)
+		CPRINTS("TestPoint 1");
 		return pd_set_power_supply_ready(port);
 
 	return 0;
@@ -735,8 +736,8 @@ static void tc_perform_src_hard_reset(int port)
 	case PS_STATE1:
 		/* Enable VBUS */
 		pd_set_power_supply_ready(port);
-
-		/* Turn off VCONN */
+		CPRINTS("TestPoint 2");
+		/* Turn on VCONN */
 		set_vconn(port, 1);
 
 		tc[port].ps_reset_state = PS_STATE3;
@@ -2131,7 +2132,7 @@ static void tc_unoriented_dbg_acc_src_entry(const int port)
 	if (TC_CHK_FLAG(port, TC_FLAGS_PR_SWAP_IN_PROGRESS)) {
 		/* Enable VBUS */
 		pd_set_power_supply_ready(port);
-
+		CPRINTS("TestPoint 3");
 		/*
 		 * Maintain VCONN supply state, whether ON or OFF, and its
 		 * data role / usb mux connections.
@@ -2147,10 +2148,12 @@ static void tc_unoriented_dbg_acc_src_entry(const int port)
 		 * This also sets the usb mux
 		 */
 		tc_set_data_role(port, PD_ROLE_DFP);
-
+		CPRINTS("TestPoint 4");
 		/* Enable VBUS */
 		if (pd_set_power_supply_ready(port)) {
+			CPRINTS("non Abilitata la vbus");
 			if (IS_ENABLED(CONFIG_USBC_SS_MUX))
+				CPRINTS("Abilitata la vbus");
 				usb_mux_set(port, TYPEC_MUX_NONE,
 				USB_SWITCH_DISCONNECT, tc[port].polarity);
 		}
@@ -2589,7 +2592,7 @@ static void tc_attached_src_entry(const int port)
 
 		/* Enable VBUS */
 		pd_set_power_supply_ready(port);
-
+		CPRINTS("TestPoint 5");
 		/*
 		 * Maintain VCONN supply state, whether ON or OFF, and its
 		 * data role / usb mux connections.
@@ -2612,7 +2615,7 @@ static void tc_attached_src_entry(const int port)
 		 */
 		if (IS_ENABLED(CONFIG_USBC_VCONN))
 			set_vconn(port, 1);
-
+		CPRINTS("TestPoint 6");
 		/* Enable VBUS */
 		if (pd_set_power_supply_ready(port)) {
 			/* Stop sourcing Vconn if Vbus failed */

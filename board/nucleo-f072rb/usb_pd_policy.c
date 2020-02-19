@@ -41,7 +41,7 @@ static uint8_t vbus_rp[CONFIG_USB_PD_PORT_MAX_COUNT] = {TYPEC_RP_1A5,
 
 int board_vbus_source_enabled(int port)
 {    CPRINTS("PORT      %d", port);
-	/*return ppc_is_sourcing_vbus(port);*/
+	return ppc_is_sourcing_vbus(port);
 	return 0;
 }
 
