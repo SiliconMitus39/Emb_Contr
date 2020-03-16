@@ -938,7 +938,7 @@ void fusb302_tcpc_alert(int port)
 
 	if (interrupt & TCPC_REG_INTERRUPT_COLLISION) {
 		/* packet sending collided */
-		pd_transmit_complete(port, TCPC_TX_COMPLETE_FAILED);
+		//pd_transmit_complete(port, TCPC_TX_COMPLETE_FAILED);
 	}
 
 #ifdef CONFIG_USB_PD_VBUS_DETECT_TCPC
@@ -949,7 +949,7 @@ void fusb302_tcpc_alert(int port)
 					fusb302_tcpm_get_vbus_level(port));
 #else
 		if (!fusb302_tcpm_get_vbus_level(port))
-			pd_vbus_low(port);
+//			pd_vbus_low(port);
 #endif
 		task_wake(PD_PORT_TO_TASK_ID(port));
 		hook_notify(HOOK_AC_CHANGE);
@@ -958,12 +958,12 @@ void fusb302_tcpc_alert(int port)
 
 	/* GoodCRC was received, our FIFO is now non-empty */
 	if (interrupta & TCPC_REG_INTERRUPTA_TX_SUCCESS) {
-		pd_transmit_complete(port, TCPC_TX_COMPLETE_SUCCESS);
+		//pd_transmit_complete(port, TCPC_TX_COMPLETE_SUCCESS);
 	}
 
 	if (interrupta & TCPC_REG_INTERRUPTA_RETRYFAIL) {
 		/* all retries have failed to get a GoodCRC */
-		pd_transmit_complete(port, TCPC_TX_COMPLETE_FAILED);
+		//pd_transmit_complete(port, TCPC_TX_COMPLETE_FAILED);
 	}
 
 	if (interrupta & TCPC_REG_INTERRUPTA_HARDSENT) {
@@ -972,7 +972,7 @@ void fusb302_tcpc_alert(int port)
 		/* bring FUSB302 out of reset */
 		fusb302_pd_reset(port);
 
-		pd_transmit_complete(port, TCPC_TX_COMPLETE_SUCCESS);
+	//	pd_transmit_complete(port, TCPC_TX_COMPLETE_SUCCESS);
 	}
 
 	if (interrupta & TCPC_REG_INTERRUPTA_HARDRESET) {
@@ -981,7 +981,7 @@ void fusb302_tcpc_alert(int port)
 		/* bring FUSB302 out of reset */
 		fusb302_pd_reset(port);
 
-		pd_execute_hard_reset(port);
+	//	pd_execute_hard_reset(port);
 
 		task_wake(PD_PORT_TO_TASK_ID(port));
 	}

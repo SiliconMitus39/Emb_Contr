@@ -8,12 +8,12 @@
 
 #ifndef DRIVER_CHARGER_SM5803_H_
 #define DRIVER_CHARGER_SM5803_H_
-#include "../board/nucleo-f072rb/board.h"
+
 
 
 /* Generic */
-#define SM5803_OFFSET_VOLTAGE_MIN		    ((uint32_t)(0xAA0))/* 2720 = 0xAA0 */
-
+#define SM5803_OFFSET_VOLTAGE_MIN		   ((uint32_t)(0xAA0))/* 2720 = 0xAA0 */
+#define SM5803_OFFSET_VOLTAGE_MAX		   ((uint32_t)(0xAA0))/* 18000 = 0xAA0 */
 /* 	Masks to set at zero the bits of the byte  */
 
 #define SM5803_ZERO_MASK_ALL_BITs  			((uint32_t)(0x00))
@@ -27,16 +27,16 @@
 #define SM5803_ZERO_MASK_BIT6  				((uint32_t)(0xBF))
 #define SM5803_ZERO_MASK_BIT7  				((uint32_t)(0x7F))
 
-#define SM5803_LOW_WORD_32				   	((uint32_t)(0x0000FFFF))
-#define SM5803_HIGH_WORD_32				   	((uint32_t)(0x0000FFFF))
+#define SM5803_LOW_WORD_32				  ((uint32_t)(0xFFFF))
+#define SM5803_HIGH_WORD_32				  ((uint32_t)(0xFFFF))
 
 /* Functions & Constants for maintenance */
-#define SM5803_ERR_VAL                      ((int8_t)(-1))
+#define SM5803_ERR_VAL                          ((int8_t)(-1))
 #define SM5803_MAX_3BIT						((uint32_t)(0x07))
-#define SM5803_I2C_OFFSET                   (0x08U)
-#define USB_C_PORT_0 						((uint32_t)(0x00U))
-#define USB_C_PORT_1 						((uint32_t)(0x01U))
-#define SM5803_I2C_NULL						((uint32_t)(0x00U))
+#define SM5803_I2C_OFFSET                   ((uint32_t)(0x08))
+#define USB_C_PORT_0 						((uint32_t)(0x00))
+#define USB_C_PORT_1 						((uint32_t)(0x01))
+#define SM5803_I2C_NULL						((uint32_t)(0x00))
 
 #define SM5803_FUNC_AND(a,b)				(a & b)
 
@@ -50,9 +50,9 @@
 /* Generic port of the charger */
 #define I2C_PORT_CHARGER 0
 
-#define SM5803_I2C_SAD_PAGE_30				((int)0x30)
-#define SM5803_I2C_SAD_PAGE_31				((int)0x31)
-#define SM5803_I2C_SAD_PAGE_32				((int)0x32)
+#define SM5803_I2C_SAD_PAGE_30				((uint32_t)(0x30))
+#define SM5803_I2C_SAD_PAGE_31				((uint32_t)(0x31))
+#define SM5803_I2C_SAD_PAGE_32				((uint32_t)(0x32))
 
 /*---------------------------------*/
 /* Set Data  System Address 0x30   */
@@ -61,7 +61,7 @@
 /*** Set Address Register of BP_PLATFORM	 ***/
 #define SM5803_BP_PLATFORM					((uint32_t)(0x18))
 
-#define SM5803_CP_ISO_CL_R1_L_MASK				((uint32_t)0x1F)
+#define SM5803_CP_ISO_CL_R1_L_MASK			((uint32_t)(0x1F))
 
 
 /*Descriptions*****************************************************************
@@ -72,10 +72,10 @@
  * to the PMODE pin.
  * ***************************************************************************/
 /* Function: OTG CURRENT */
-#define SM5803_BP_PLATFORM_MASK				((uint32_t)0x1F)
+#define SM5803_BP_PLATFORM_MASK				((uint32_t)(0x1F))
 
 /* Default */
-#define SM5803_BP_PLATFORM_DEFAULT	        ((uint32_t)0x00)
+#define SM5803_BP_PLATFORM_DEFAULT	        ((uint32_t)(0x00))
 /*** THE END BP_PLATFORM	 ***/
 
 /*** Set Address Register of STATUS_REG_1 ***/
@@ -165,8 +165,8 @@
 #define SM5803_CHG_DONE_TO_FG_BIT2_EN		((uint32_t)BIT(2))
 #define SM5803_BAT_WU_BIT3_EN				((uint32_t)BIT(3))
 
-#define SM5803_CHRG_INHIBIT					((uint32_t)0xF8)
-#define SM5803_CHRG_ENABLE			    	((uint32_t)0x01)
+#define SM5803_CHRG_INHIBIT				      ((uint32_t)0xF8)
+#define SM5803_CHRG_ENABLE			    	  ((uint32_t)0x01)
 
 
 /* Default */
@@ -179,7 +179,7 @@
 
 /*** Set Address Register of GP_PSYSs***/
 #define SM5803_GP_PSYS_REG1		  			((uint32_t)(0x04))
-#define SM5803_GP_PSYS_PHOT_R8			((uint32_t)(0x0E))
+#define SM5803_GP_PSYS_PHOT_R8		    	((uint32_t)(0x0E))
 #define SM5803_GP_PSYS_MASK_R1				((uint32_t)(0x0E))
 /*Descriptions*****************************************************************
  * Default: 00000101b
@@ -199,14 +199,14 @@
 #define SM5803_PSYS_GAIN_BIT2_EN       		((uint32_t)BIT(2))
 #define SM5803_PSYS_GAIN_BIT3_EN       	  	((uint32_t)BIT(3))*/
 
-#define SM5803_GP_PSYS_REG1_MASK			((uint32_t)0x0E)
+#define SM5803_GP_PSYS_REG1_MASK			((uint32_t)(0x0E))
 
 /* Default */
-#define SM5803_GP_PSYS_REG1_DEFAULT			((uint32_t)0x05)
+#define SM5803_GP_PSYS_REG1_DEFAULT			((uint32_t)(0x05))
 /*** THE END GP_PSYS_REG1 ***/
 
 /*** Set Address Register of PSYS_PHOT_REG8 ***/
-#define SM5803_GP_PSYS_PHOT_REG8  			(0x14U)
+#define SM5803_GP_PSYS_PHOT_REG8  		   ((uint32_t)(0x14U))
 
 /*Descriptions*****************************************************************
  * Default : 00000000b
@@ -214,10 +214,10 @@
  * The value of the lsb depends on psys_gain.
  *****************************************************************************/
 /* Psys value */
-#define SM5803_PSYS_VAL_MASK				(0xFFU)
+#define SM5803_PSYS_VAL_MASK				((uint32_t)(0xFF))
 
 /* Default*/
-#define SM5803_GP_PSYS_PHOT_REG8_DEFAULT	(0x00U)
+#define SM5803_GP_PSYS_PHOT_REG8_DEFAULT	((uint32_t)(0x00))
 /*** THE END PSYS_PHOT_REG8 ***/
 
 /*** Set Address Register of VBUS MEAS LSB ***/
@@ -229,7 +229,7 @@
  *Current 2 LSB bits [1:0] of VBUS[9:0].
  *
  *****************************************************************************/
-#define SM5803_GP_VBUS_MEAS_LSB_MASK        ((uint32_t)0x03)
+#define SM5803_GP_VBUS_MEAS_LSB_MASK          ((uint32_t)0x03)
 
 /* Default
 #define SM5803_GP_VBUS_MEAS_LSB _DEFAULT	((uint32_t)0x00) */
@@ -244,10 +244,10 @@
  *of VBUS[9:0]
  *
  *****************************************************************************/
-#define SM5803_CP_VBUS_MSB_MASK      		((uint32_t)0xFF)
+#define SM5803_CP_VBUS_MSB_MASK      		  ((uint32_t)0xFF)
 
 /* Default*/
-#define SM5803_GP_VBUS_Meas_MSB _DEFAULT	((uint32_t)0x00)
+#define SM5803_GP_VBUS_Meas_MSB _DEFAULT	  ((uint32_t)0x00)
 /*** THE END VBUS MEAS LSB ***/
 
 
@@ -275,6 +275,7 @@
 #define SM5803_CP_VPWR_REG_FILTER_MSB_MASK	((uint32_t)0xF8)
 #define SM5803_CP_VPWR_REG_SET_MSB_MASK    	((uint32_t)0x07)
 #define SM5803_SHIFT_R_CONST				((uint32_t)0x05)
+
 /* Default */
 #define SM5803_CP_DISCH_CONF_REG1_DEFAULT	((uint32_t)0x1C)
 /*** THE END CP_DISCH_CONF_REG1 ***/
@@ -318,7 +319,7 @@
  * 1 = Current loop enabled
  *
  *****************************************************************************/
-#define SM5803_CP_FLOW_REG1_MASK				((uint32_t)(0x02))
+#define SM5803_CP_FLOW_REG1_MASK			((uint32_t)(0x02))
 
 /* Set Function mode */
 #define SM5803_CHG_EN_BIT0_EN       		((uint32_t)BIT(0))
@@ -390,7 +391,7 @@
 
 /*** Set Address Register of CP_PRE_FAST_CONF_REG4 ***/
 #define SM5803_CP_PRE_FAST_CONF_REG4		((uint32_t)(0x3C))
-#define SM5803_CP_PRE_FAST_CONF_REG4_MASK		((uint32_t)(0x3F))
+#define SM5803_CP_PRE_FAST_CONF_REG4_MASK	((uint32_t)(0x3F))
 
 /*Descriptions*****************************************************************
  * Default: 11000000b
@@ -407,11 +408,11 @@
 
 /* Default */
 #define SM5803_CP_PRE_FAST_CONF_REG4_DEFAULT \
-												((uint32_t)(0xC0))
+											((uint32_t)(0xC0))
 /*** THE END CP_PRE_FAST_CONF_REG4 ***/
 
 /*** Set Address Register of CP_ISO_CL_REG1 ***/
-#define SM5803_CP_ISO_CL_REG1		((0x24U))
+#define SM5803_CP_ISO_CL_REG1		        ((uint32_t)(0x24))
 
 /*Descriptions*****************************************************************
  * Default: 00000100b
@@ -449,7 +450,7 @@
  *  4 cells: 0x5F8 (18 V);
  * ***************************************************************************/
 /* Funcion: MAX_CHARGE_VOLTAGE */
-#define SM5803_VBAT_FAST_SET_MSB_MASK		((uint32_t)(0x000000FF))
+#define SM5803_VBAT_FAST_SET_MSB_MASK		((uint32_t)(0xFF))
 
 /* Default */
 #define SM5803_CP_PRE_FAST_CONF_REG2_DEFAULT\
@@ -483,7 +484,7 @@
 #define SM5803_SW_WAKE_UP_TH_MASK           ((uint32_t)(0xF0))
 
 
-#define SM5803_VBAT_FAST_SET_LSB_MASK       ((uint32_t)(0x00000007))
+#define SM5803_VBAT_FAST_SET_LSB_MASK       ((uint32_t)(0x07))
 
 /* Default */
 #define SM5803_CP_PRE_FAST_CONF_REG3_DEFAULT \
@@ -492,6 +493,7 @@
 
 /*** Set Address Register of DISCH_CONF_REG5 ***/
 #define SM5803_CP_DISCH_CONF_REG5			((uint32_t)(0x34))
+#define SM5803_CP_DISCH_CONF_REG5_CURR		((uint32_t)(0x14))
 #define SM5803_CP_DISCH_CONF_REG5_MASK		((uint32_t)(0x80))
 /*Descriptions*****************************************************************
  * Default: 00000000b
@@ -505,7 +507,8 @@
 #define SM5803_CP_DISCH_CONF_REG5_DEFAULT	((uint32_t)(0x00))
 /*** THE END DISCH_CONF_REG5 ***/
 
-
+int sm5803_discharge(void);
+int sm5803_discharge_curr(void);
 
 
 #endif /* DRIVER_CHARGER_SM5803_H_ */

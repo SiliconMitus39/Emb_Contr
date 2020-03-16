@@ -785,6 +785,7 @@ static inline void set_state(int port, enum pd_states next_state)
 		}
 
 		/* Clear the input current limit */
+		CPRINTF("TEST_POINT_6");
 		pd_set_input_current_limit(port, 0, 0);
 #ifdef CONFIG_CHARGE_MANAGER
 		typec_set_input_current_limit(port, 0, 0);
@@ -815,6 +816,7 @@ static inline void set_state(int port, enum pd_states next_state)
 		/* If we are source, make sure VBUS is off and restore RP */
 		if (pd[port].power_role == PD_ROLE_SOURCE) {
 			/* Restore non-active ports to CONFIG_USB_PD_PULLUP */
+			CPRINTF("TESTPOINT_1");
 			pd_power_supply_reset(port);
 			tcpm_set_cc(port, TYPEC_CC_RP);
 		}
@@ -866,7 +868,7 @@ static inline void set_state(int port, enum pd_states next_state)
 #endif
 
 	if (debug_level > 0)
-		CPRINTF("C%d st%d %s\n", port, next_state,
+		CPRINTF("C%d st%d %s   Francesco\n", port, next_state,
 					 pd_state_names[next_state]);
 	else
 		CPRINTF("C%d st%d\n", port, next_state);
@@ -1433,6 +1435,7 @@ void pd_execute_hard_reset(int port)
 	pd_set_data_role(port, pd[port].power_role);
 	if (pd[port].power_role == PD_ROLE_SINK) {
 		/* Clear the input current limit */
+		CPRINTF("TEST_POINT_7");
 		pd_set_input_current_limit(port, 0, 0);
 #ifdef CONFIG_CHARGE_MANAGER
 		charge_manager_set_ceil(port,
@@ -1460,6 +1463,7 @@ void pd_execute_hard_reset(int port)
 		usleep(PD_T_PS_HARD_RESET);
 
 	/* We are a source, cut power */
+	CPRINTF("TESTPOINT_2");
 	pd_power_supply_reset(port);
 	pd[port].src_recover = get_time().val + PD_T_SRC_RECOVER;
 #ifdef CONFIG_USBC_VCONN
@@ -1869,6 +1873,7 @@ static void handle_ctrl_request(int port, uint16_t head,
 					+ (get_time().le.lo & 0xf) * 12 * MSEC;
 
 			set_state(port, PD_STATE_SNK_READY);
+			CPRINTF("TEST_POINT_8");
 			pd_set_input_current_limit(port, pd[port].curr_limit,
 						   pd[port].supply_voltage);
 #ifdef CONFIG_CHARGE_MANAGER
@@ -2103,6 +2108,7 @@ static void handle_request(int port, uint16_t head,
 		 */
 		if (tcpm_set_cc(port, TYPEC_CC_OPEN) == EC_SUCCESS) {
 			/* Do not drive VBUS or VCONN. */
+			CPRINTF("TESTPOINT_3");
 			pd_power_supply_reset(port);
 #ifdef CONFIG_USBC_VCONN
 			set_vconn(port, 0);
@@ -2858,6 +2864,7 @@ void pd_task(void *u)
 	 * Ensure the power supply is in the default state and ensure we are not
 	 * sourcing Vconn
 	 */
+	CPRINTF("TESTPOINT_4");
 	pd_power_supply_reset(port);
 #ifdef CONFIG_USBC_VCONN
 	set_vconn(port, 0);
@@ -3000,6 +3007,7 @@ void pd_task(void *u)
 
 #ifdef CONFIG_CHARGE_MANAGER
 	/* Initialize PD and type-C supplier current limits to 0 */
+	CPRINTF("TEST_POINT_10");
 	pd_set_input_current_limit(port, 0, 0);
 	typec_set_input_current_limit(port, 0, 0);
 	charge_manager_update_dualrole(port, CAP_UNKNOWN);
@@ -4281,6 +4289,7 @@ void pd_task(void *u)
 			break;
 		case PD_STATE_SNK_SWAP_SNK_DISABLE:
 			/* Stop drawing power */
+			CPRINTF("TEST_POINT_11");
 			pd_set_input_current_limit(port, 0, 0);
 #ifdef CONFIG_CHARGE_MANAGER
 			typec_set_input_current_limit(port, 0, 0);

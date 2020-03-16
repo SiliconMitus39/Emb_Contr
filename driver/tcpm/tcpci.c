@@ -21,8 +21,7 @@
 #include "usb_pd_tcpc.h"
 #include "util.h"
 
-#define CPRINTF(format, args...) cprintf(CC_USBPD, format, ## args)
-#define CPRINTS(format, args...) cprints(CC_USBPD, format, ## args)
+
 
 #ifdef CONFIG_USB_PD_DECODE_SOP
 static int vconn_en[CONFIG_USB_PD_PORT_MAX_COUNT];
@@ -525,7 +524,6 @@ int tcpm_enqueue_message(const int port)
 		&q->buffer[q->head & CACHE_DEPTH_MASK];
 
 	if (q->head - q->tail == CACHE_DEPTH) {
-		CPRINTS("C%d RX EC Buffer full!", port);
 		return EC_ERROR_OVERFLOW;
 	}
 
@@ -535,7 +533,7 @@ int tcpm_enqueue_message(const int port)
 	rv = tcpc_config[port].drv->get_message_raw(port, head->payload,
 						    &head->header);
 	if (rv) {
-		CPRINTS("C%d: Could not retrieve RX message (%d)", port, rv);
+
 		return rv;
 	}
 
@@ -563,7 +561,7 @@ int tcpm_dequeue_message(const int port, uint32_t *const payload,
 		&q->buffer[q->tail & CACHE_DEPTH_MASK];
 
 	if (!tcpm_has_pending_message(port)) {
-		CPRINTS("C%d No message in RX buffer!", port);
+
 		return EC_ERROR_BUSY;
 	}
 
@@ -660,7 +658,7 @@ static int tcpci_get_fault(int port, int *fault)
 
 static int tcpci_handle_fault(int port, int fault)
 {
-	CPRINTS("C%d FAULT 0x%02X detected", port, fault);
+
 	return EC_SUCCESS;
 }
 
@@ -696,7 +694,7 @@ void tcpci_tcpc_alert(int port)
 		if (tcpci_get_fault(port, &fault) == EC_SUCCESS &&
 		    tcpci_handle_fault(port, fault) == EC_SUCCESS &&
 		    tcpci_clear_fault(port, fault) == EC_SUCCESS)
-			CPRINTS("C%d FAULT 0x%02X handled", port, fault);
+			;
 	}
 
 	/*
@@ -719,8 +717,8 @@ void tcpci_tcpc_alert(int port)
 
 		/* Ensure we don't loop endlessly */
 		if (failed_attempts >= MAX_ALLOW_FAILED_RX_READS) {
-			CPRINTS("C%d Cannot consume RX buffer after %d failed attempts!",
-				port, failed_attempts);
+
+
 			/*
 			 * The port is in a bad state, we don't want to consume
 			 * all EC resources so suspend the port for a little

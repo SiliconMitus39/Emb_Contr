@@ -210,9 +210,6 @@ enum fusb302_txfifo_tokens {
 };
 
 extern const struct tcpm_drv fusb302_tcpm_drv;
-int anx7447_set_power_supply_ready(int port);
-int anx7447_power_supply_reset(int port);
-int anx7447_board_charging_enable(int port, int enable);
 
 
 #endif /* __CROS_EC_DRIVER_TCPM_FUSB302_H */

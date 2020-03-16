@@ -6,7 +6,7 @@
 
 #include "adc.h"
 #include "adc_chip.h"
-#include "charger/sy21612.h"
+#include "charger/sm5803.h"
 #include "clock.h"
 #include "common.h"
 #include "ec_commands.h"
@@ -32,7 +32,7 @@ void vbus_event(enum gpio_signal signal);
 
 /* I2C ports */
 const struct i2c_port_t i2c_ports[] = {
-	{"charger", I2C_PORT_SY21612, 400, GPIO_I2C0_SCL, GPIO_I2C0_SDA},
+	{"charger", I2C_PORT_SY21612, 100, GPIO_I2C0_SCL, GPIO_I2C0_SDA},
 };
 const unsigned int i2c_ports_used = ARRAY_SIZE(i2c_ports);
 

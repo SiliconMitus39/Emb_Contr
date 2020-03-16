@@ -20,7 +20,7 @@ static inline int is_typec_port(int port)
 	return !(port == DEDICATED_CHARGE_PORT || port == CHARGE_PORT_NONE);
 }
 
-
+/*CANDIDATE*/
 int board_vbus_source_enabled(int port)
 {
 	int src_en = 0;

@@ -7,12 +7,15 @@
 
 #ifndef __CROS_EC_BOARD_H
 #define __CROS_EC_BOARD_H
+/*
 
-/* Use external clock */
+ Use external clock
 #define CONFIG_STM32_CLOCK_HSE_HZ 24000000
 
 #define CONFIG_BOARD_POST_GPIO_INIT
-
+*/
+/* 48 MHz SYSCLK clock frequency */
+#define CPU_CLOCK 48000000
 #define CONFIG_FLASH_WRITE_SIZE STM32_FLASH_WRITE_SIZE_3300
 
 /* Enable console recasting of GPIO type. */

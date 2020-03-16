@@ -568,7 +568,7 @@ __overridable void pd_check_pr_role(int port, enum pd_power_role pr_role, int fl
 	}
 }
 
-__overridable void pd_execute_data_swap(int port, int data_role)
+__overridable void pd_execute_data_swap(int port, enum pd_data_role data_role)
 {
 }
 

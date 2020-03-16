@@ -2073,6 +2073,7 @@ static void pe_snk_transition_sink_run(int port)
 
 static void pe_snk_transition_sink_exit(int port)
 {
+	CPRINTF("Set Current Limit 1");
 	/* Transition Sink's power supply to the new power level */
 	pd_set_input_current_limit(port,
 				pe[port].curr_limit, pe[port].supply_voltage);
@@ -2329,6 +2330,7 @@ static void pe_snk_hard_reset_entry(int port)
 		PE_CLR_FLAG(port, PE_FLAGS_PS_TRANSITION_TIMEOUT);
 
 		/* Transition Sink's power supply to the new power level */
+		CPRINTF("Set Current Limit 4");
 		pd_set_input_current_limit(port, pe[port].curr_limit,
 						pe[port].supply_voltage);
 		if (IS_ENABLED(CONFIG_CHARGE_MANAGER))

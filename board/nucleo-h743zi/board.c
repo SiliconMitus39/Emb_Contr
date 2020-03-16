@@ -4,14 +4,28 @@
  */
 
 #include "common.h"
-#include "console.h"
+#include "battery.h"
+#include "extpower.h"
+#include "board.h"
+#include "../driver/charger/sm5803.h"
 #include "gpio.h"
 #include "hooks.h"
 #include "registers.h"
-#include "spi.h"
-#include "system.h"
 #include "task.h"
+#include "i2c.h"
+#include "timer.h"
+#include "host_command.h"
+#include "console.h"
+#include "math_util.h"
+#include "uart.h"
+#include "ec_version.h"
 #include "util.h"
+#include "tcpm.h"
+#include "charge_manager.h"
+#include "virtual_battery.h"
+#include "panic.h"
+#include "charger.h"
+
 
 /**
  * Disable restricted commands when the system is locked.

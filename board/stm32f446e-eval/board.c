@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "dma.h"
+#include "console.h"
 #include "ec_version.h"
 #include "gpio.h"
 #include "gpio_list.h"
@@ -16,6 +17,10 @@
 #include "usb_dwc_console.h"
 #include "usb_hw.h"
 
+
+#define CPUTS(outstr) cputs(CC_CHARGER, outstr)
+#define CPRINTS(format, args...) cprints(CC_CHARGER, format, ## args)
+#define CPRINTF(format, args...) cprintf(CC_CHARGER, format, ## args)
 /******************************************************************************
  * Define the strings used in our USB descriptors.
  */

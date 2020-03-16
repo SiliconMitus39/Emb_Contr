@@ -21,7 +21,7 @@
 static const struct charger_info sm5803_charger_info = {
 		.name = "sm5803",
 		.voltage_max = 18000,
-		.voltage_min = 2720,
+		.voltage_min = SM5803_OFFSET_VOLTAGE_MIN,
 		.voltage_step = 10,
 		.current_max = 6000,
 		.current_min = 100,
@@ -476,11 +476,8 @@ int charger_set_otg_current_voltage(int cls_limit, int vchg_pwr) {
 			/* Check for current saturated */
 			max_current(cls_limit, &rv1, SM5803_I2C_NULL);
 
+			rv0 |= rv1;
 
-
-	rv0 |= rv1;
-
-	/* Add when needed. */
 	return rv0;
 }
 
@@ -624,12 +621,12 @@ int charger_set_input_current(int input_current) {
 }
 
 int charger_manufacturer_id(int *id) {
-	*id =58;
+	*id =0x58;
 	return 0;
 }
 
 int charger_device_id(int *id) {
-	*id =03;
+	*id =0x03;
 	return 0;
 }
 
@@ -655,5 +652,191 @@ int charger_set_option(int option) {
 	ret = chSetOpt(option, SM5803_I2C_NULL);
 
 	return ret;
+}
+
+
+
+/* Not Standard API */
+
+int sm5803_discharge(void){
+	int ret1 = 0, ret2 = 0;
+	int disch_conf_reg2_val;
+	int flow_re1_val;
+	ret1 = raw_read8(SM5803_I2C_SAD_PAGE_32 + SM5803_I2C_NULL ,
+					SM5803_CP_DISCH_CONF_REG2, &disch_conf_reg2_val);
+	ret2 = raw_read8(SM5803_I2C_SAD_PAGE_32 + SM5803_I2C_NULL ,
+					 SM5803_CP_FLOW_REG1, &flow_re1_val);
+
+	disch_conf_reg2_val = SM5803_CP_VPWR_REG_SET_MSB_MASK &
+						((SM5803_CP_VPWR_REG_SET_MSB_MASK>>2)<<1);
+	ret1 = raw_write8(SM5803_I2C_SAD_PAGE_32 + SM5803_I2C_NULL,
+					  SM5803_CP_DISCH_CONF_REG2,disch_conf_reg2_val );
+
+	flow_re1_val = SM5803_CHG_EN_BIT0_EN | SM5803_VBUSIN_DISCH_EN_BIT1_EN|
+				   SM5803_DIRECT_SRC_BIT2_EN;
+
+	ret2 = raw_write8(SM5803_I2C_SAD_PAGE_32 + SM5803_I2C_NULL ,
+					 SM5803_CP_FLOW_REG1, flow_re1_val);
+return (ret1 | ret2);
+}
+
+int sm5803_discharge_curr(void){
+	int ret=0;
+
+	ret = raw_write8(SM5803_I2C_SAD_PAGE_32 + SM5803_I2C_NULL ,
+			SM5803_CP_DISCH_CONF_REG5, SM5803_CP_DISCH_CONF_REG5_CURR);
+
+	return ret;
+}
+
+
+void sm5803_charger_init_5_9(void){
+	/* COMMON SECTION */
+	/* Pag 0x30 */
+	raw_write8(0x30, 0x1E, 0x01);
+	udelay(1000);
+	raw_write8(0x30, 0x1F, 0x01);
+	udelay(1000);
+	raw_write8(0x30, 0x20, 0x30);
+	udelay(1000);
+	raw_write8(0x30, 0x30, 0x40);
+	udelay(1000);
+	raw_write8(0x30, 0x0D, 0x02);
+	udelay(1000);
+	raw_write8(0x30, 0x80, 0x01);
+	udelay(1000);
+	/* Pag 0x31 */
+	raw_write8(0x31, 0x04, 0x01);
+	udelay(1000);
+	raw_write8(0x31, 0x05, 0x00);
+	udelay(1000);
+	raw_write8(0x31, 0x12, 0x0F);
+	udelay(1000);
+	raw_write8(0x31, 0x01, 0xFF);
+	udelay(1000);
+	raw_write8(0x31, 0x08, 0xC2);
+	udelay(1000);
+	/* Pag 0x32 */
+	raw_write8(0x32, 0x1D, 0x46);
+	udelay(1000);
+	raw_write8(0x32, 0x1F, 0x09);
+	udelay(1000);
+	raw_write8(0x32, 0x21, 0x99);
+	udelay(1000);
+	raw_write8(0x32, 0x22, 0xB3);
+	udelay(1000);
+	raw_write8(0x32, 0x23, 0x81);
+	udelay(1000);
+	raw_write8(0x32, 0x24, 0x96);
+	udelay(1000);
+	raw_write8(0x32, 0x27, 0xC5);
+	udelay(1000);
+	raw_write8(0x32, 0x28, 0xB7);
+	udelay(1000);
+	raw_write8(0x32, 0x31, 0x3C);
+	udelay(1000);
+	raw_write8(0x32, 0x34, 0x3F);
+	udelay(1000);
+	raw_write8(0x32, 0x35, 0x01);
+	udelay(1000);
+	raw_write8(0x32, 0x39, 0x70);
+	udelay(1000);
+	raw_write8(0x32, 0x3A, 0x4C);
+	udelay(1000);
+	raw_write8(0x32, 0x3C, 0xE0);
+	udelay(1000);
+	raw_write8(0x32, 0x3D, 0x89);
+	udelay(1000);
+	raw_write8(0x32, 0x3E, 0x34);
+	udelay(1000);
+	raw_write8(0x32, 0x41, 0x60);
+	udelay(1000);
+	/* SECTION 5-9 */
+	raw_write8(0x32, 0x4A, 0x82);
+	udelay(1000);
+	raw_write8(0x32, 0x4B, 0xA3);
+	udelay(1000);
+	raw_write8(0x32, 0x4D, 0xC6);
+	udelay(1000);
+	raw_write8(0x32, 0x4E, 0x07);
+	udelay(1000);
+	/* COMMON SECTION  */
+	raw_write8(0x32, 0x4F, 0xFF);
+	udelay(1000);
+	raw_write8(0x32, 0x51, 0x80);
+	udelay(1000);
+	raw_write8(0x32, 0x52, 0x77);
+	udelay(1000);
+	raw_write8(0x32, 0x53, 0xD0);
+	udelay(1000);
+	raw_write8(0x32, 0x54, 0x03);
+	udelay(1000);
+	raw_write8(0x32, 0x55, 0xF1);
+	udelay(1000);
+	raw_write8(0x32, 0x56, 0xFF);
+	udelay(1000);
+	raw_write8(0x32, 0x57, 0x03);
+	udelay(1000);
+	raw_write8(0x32, 0x58, 0xF1);
+	udelay(1000);
+	raw_write8(0x32, 0x59, 0xFF);
+	udelay(1000);
+	raw_write8(0x32, 0x5A, 0x10);
+	udelay(1000);
+	/* SECTION 5-9 */
+	raw_write8(0x32, 0x5B, 0x00);
+	udelay(1000);
+	/* COMMON SECTION */
+	raw_write8(0x32, 0x5C, 0x6F);
+	udelay(1000);
+	raw_write8(0x32, 0x5E, 0x3C);
+	udelay(1000);
+	raw_write8(0x32, 0x5F, 0x3C);
+	udelay(1000);
+	raw_write8(0x32, 0x30, 0xAA);
+	udelay(1000);
+	raw_write8(0x32, 0x61, 0x20);
+	udelay(1000);
+	raw_write8(0x32, 0x65, 0x3E);
+	udelay(1000);
+	raw_write8(0x32, 0x66, 0x36);
+	udelay(1000);
+	/* SECTION 5-9 */
+	raw_write8(0x32, 0x67, 0x64);
+	udelay(1000);
+	raw_write8(0x32, 0x68, 0x88);
+	udelay(1000);
+	/* COMMON SECTION */
+	raw_write8(0x32, 0x69, 0xC7);
+	udelay(1000);
+	raw_write8(0x32, 0x72, 0x7F);
+	udelay(1000);
+	raw_write8(0x32, 0x73, 0xE4);
+	udelay(1000);
+	raw_write8(0x32, 0x75, 0x14);
+	udelay(1000);
+	raw_write8(0x32, 0x76, 0x2F);
+	udelay(1000);
+	raw_write8(0x32, 0x7B, 0x20);
+	udelay(1000);
+	raw_write8(0x32, 0x50, 0x98);
+	udelay(1000);
+	raw_write8(0x32, 0x5D, 0xD0);
+	udelay(1000);
+	raw_write8(0x32, 0x3B, 0x00);
+	udelay(1000);
+	/* PAG 0x31*/
+	raw_write8(0x31, 0x12, 0x0F);
+	udelay(1000);
+	raw_write8(0x31, 0x05, 0x00);
+	udelay(1000);
+	raw_write8(0x31, 0x13, 0x89);
+	udelay(1000);
+	/* PAG 0x32*/
+	raw_write8(0x32, 0x1C, 0x00);
+	udelay(1000);
+
+
+
 }
 

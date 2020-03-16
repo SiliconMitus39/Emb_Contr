@@ -10,7 +10,7 @@ CHIP:=stm32
 CHIP_FAMILY:=stm32f0
 CHIP_VARIANT:=stm32f07x
 
-board-y=board.o usb_pd_policy.o
+board-y=board.o usb_pd_policy.o 
 #common-$(CONFIG_I2C_MASTER)+=i2c_master.o
 #common-$(HAS_TASK_HOSTCMD)+=host_command.o ec_features.o
 #common-$(CONFIG_CHARGER)+=charger.o charge_state_v2.o

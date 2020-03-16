@@ -85,51 +85,50 @@ static int check_print_error(int rv)
 
 static void print_battery_status(void)
 {
-//	static const char * const st[] = {"EMPTY", "FULL", "DCHG", "INIT",};
-//	static const char * const al[] = {"RT", "RC", "--", "TD",
-//					  "OT", "--", "TC", "OC"};
-//
-//	int value, i;
-//
-//	print_item_name("Status:");
-//	/*fsco*//*check_print_error(battery_status(&value))*/
-//	if (check_print_error(battery_status(&value))) {
-//		ccprintf("0x%04x", value);
-//
-//		/* bits 0-3 are only valid when the previous transaction
-//		 * failed, so ignore them */
-//
-//		/* bits 4-7 are status */
-//		for (i = 0; i < 4; i++)
-//			if (value & (1 << (i+4)))
-//				ccprintf(" %s", st[i]);
-//
-//		/* bits 15-8 are alarms */
-//		for (i = 0; i < 8; i++)
-//			if (value & (1 << (i+8)))
-//				ccprintf(" %s", al[i]);
-//
-//		ccprintf("\n");
-//	}
+	static const char * const st[] = {"EMPTY", "FULL", "DCHG", "INIT",};
+	static const char * const al[] = {"RT", "RC", "--", "TD","OT", "--", "TC", "OC"};
+
+	int value, i;
+
+	print_item_name("Status:");
+	check_print_error(battery_status(&value));
+	if (check_print_error(battery_status(&value))) {
+		ccprintf("0x%04x", value);
+
+		/* bits 0-3 are only valid when the previous transaction
+		 * failed, so ignore them */
+
+		/* bits 4-7 are status */
+		for (i = 0; i < 4; i++)
+			if (value & (1 << (i+4)))
+				ccprintf(" %s", st[i]);
+
+		/* bits 15-8 are alarms */
+		for (i = 0; i < 8; i++)
+			if (value & (1 << (i+8)))
+				ccprintf(" %s", al[i]);
+
+		ccprintf("\n");
+	}
 }
 
 static void print_battery_strings(void)
 {
-//	char text[32];
+	char text[32];
 //	char text0[14] = "SILICON_MITUS";
 //	char text1[4] = "BAT";
 //	char text2[5] = "Lion";
-//	print_item_name("Manuf:");
-//	if (check_print_error(battery_manufacturer_name(text, sizeof(text))))
-//		ccprintf("%s\n", text);
-//
-//	print_item_name("Device:");
-//	if (check_print_error(battery_device_name(text, sizeof(text))))
-//		ccprintf("%s\n", text);
-//
-//	print_item_name("Chem:");
-//	if (check_print_error(battery_device_chemistry(text, sizeof(text))))
-//		ccprintf("%s\n", text);
+	print_item_name("Manuf:");
+	if (check_print_error(battery_manufacturer_name(text, sizeof(text))))
+		ccprintf("%s\n", text);
+
+	print_item_name("Device:");
+	if (check_print_error(battery_device_name(text, sizeof(text))))
+		ccprintf("%s\n", text);
+
+	print_item_name("Chem:");
+	if (check_print_error(battery_device_chemistry(text, sizeof(text))))
+		ccprintf("%s\n", text);
 }
 
 static void print_battery_params(void)
@@ -184,66 +183,66 @@ static void print_battery_params(void)
 static void print_battery_info(void)
 {
 	int value;
-	//int hour, minute;
+	int hour, minute;
 
 	print_item_name("Serial:");
 	if (check_print_error(battery_serial_number(&value)))
 		ccprintf("0x%04x\n", value);
 
-//	print_item_name("V-design:");
-//	if (check_print_error(battery_design_voltage(&value)))
-//		ccprintf("0x%04x = %d mV\n", value, value);
-//
-//	print_item_name("Mode:");
-//	if (check_print_error(battery_get_mode(&value)))
-//		ccprintf("0x%04x\n", value);
-//
-//	print_item_name("Abs charge:");
-//	if (check_print_error(battery_state_of_charge_abs(&value)))
-//		ccprintf("%d %%\n", value);
+	print_item_name("V-design:");
+	if (check_print_error(battery_design_voltage(&value)))
+		ccprintf("0x%04x = %d mV\n", value, value);
 
-//	print_item_name("Remaining:");
-//	if (check_print_error(battery_remaining_capacity(&value)))
-//		ccprintf("%d mAh\n", value);
-//
-//	print_item_name("Cap-full:");
-//	if (check_print_error(battery_full_charge_capacity(&value)))
-//		ccprintf("%d mAh (%d mAh with %d %% compensation)\n",
-//			 value, value*batt_full_factor/100, batt_full_factor);
-//
-//#ifdef CONFIG_CHARGER
-//	print_item_name("Display:");
-//	value = charge_get_display_charge();
-//	ccprintf("%d.%d %%\n", value / 10, value % 10);
-//#endif
-//
-//	print_item_name("  Design:");
-//	if (check_print_error(battery_design_capacity(&value)))
-//		ccprintf("%d mAh\n", value);
-//
-//	print_item_name("Time-full:");
-//	if (check_print_error(battery_time_to_full(&value))) {
-//		if (value == 65535) {
-//			hour   = 0;
-//			minute = 0;
-//		} else {
-//			hour   = value / 60;
-//			minute = value % 60;
-//		}
-//		ccprintf("%dh:%d\n", hour, minute);
-//	}
-//
-//	print_item_name("  Empty:");
-//	if (check_print_error(battery_time_to_empty(&value))) {
-//		if (value == 65535) {
-//			hour   = 0;
-//			minute = 0;
-//		} else {
-//			hour   = value / 60;
-//			minute = value % 60;
-//		}
-//		ccprintf("%dh:%d\n", hour, minute);
-//	}
+	print_item_name("Mode:");
+	if (check_print_error(battery_get_mode(&value)))
+		ccprintf("0x%04x\n", value);
+
+	print_item_name("Abs charge:");
+	if (check_print_error(battery_state_of_charge_abs(&value)))
+		ccprintf("%d %%\n", value);
+
+	print_item_name("Remaining:");
+	if (check_print_error(battery_remaining_capacity(&value)))
+		ccprintf("%d mAh\n", value);
+
+	print_item_name("Cap-full:");
+	if (check_print_error(battery_full_charge_capacity(&value)))
+		ccprintf("%d mAh (%d mAh with %d %% compensation)\n",
+			 value, value*batt_full_factor/100, batt_full_factor);
+
+#ifdef CONFIG_CHARGER
+	print_item_name("Display:");
+	value = charge_get_display_charge();
+	ccprintf("%d.%d %%\n", value / 10, value % 10);
+#endif
+
+	print_item_name("  Design:");
+	if (check_print_error(battery_design_capacity(&value)))
+		ccprintf("%d mAh\n", value);
+
+	print_item_name("Time-full:");
+	if (check_print_error(battery_time_to_full(&value))) {
+		if (value == 65535) {
+			hour   = 0;
+			minute = 0;
+		} else {
+			hour   = value / 60;
+			minute = value % 60;
+		}
+		ccprintf("%dh:%d\n", hour, minute);
+	}
+
+	print_item_name("  Empty:");
+	if (check_print_error(battery_time_to_empty(&value))) {
+		if (value == 65535) {
+			hour   = 0;
+			minute = 0;
+		} else {
+			hour   = value / 60;
+			minute = value % 60;
+		}
+		ccprintf("%dh:%d\n", hour, minute);
+	}
 }
 
 void print_battery_debug(void)

@@ -5,6 +5,7 @@
 
 #include "common.h"
 #include "fusb302.h"
+#include "sm5803.h"
 #include "console.h"
 #include "gpio.h"
 #include "hooks.h"
@@ -74,7 +75,10 @@ void pd_power_supply_reset(int port)
 int pd_set_power_supply_ready(int port)
 {
 	/* Turn on the "up" LED when we output VBUS */
+
+	sm5803_discharge_curr();
 	gpio_set_level(GPIO_LED_U, 1);
+	sm5803_discharge();
 	CPRINTS("Power supply ready/%d", port);
 	return EC_SUCCESS; /* we are ready */
 }
@@ -84,13 +88,14 @@ void pd_power_supply_reset(int port)
 	/* Turn off the "up" LED when we shutdown VBUS */
 	gpio_set_level(GPIO_LED_U, 0);
 	/* Disable VBUS */
-	CPRINTS("Disable VBUS port %d", port);
+	CPRINTS("Disable VBUS P%d", port);
 }
 #endif /* CONFIG_USB_PD_TCPM_ANX7447 */
 
 void pd_set_input_current_limit(int port, uint32_t max_ma,
 				uint32_t supply_voltage)
 {
+
 	CPRINTS("USBPD current limit port %d max %d mA %d mV",
 		port, max_ma, supply_voltage);
 	/* do some LED coding of the power we can sink */
@@ -135,7 +140,7 @@ int pd_snk_is_vbus_provided(int port)
 	return vbus_present;
 }
 
-__override int pd_check_data_swap(int port, enum pd_data_role  data_role)
+__override int pd_check_data_swap(int port, enum pd_data_role data_role)
 {
 	/* Always allow data swap */
 	return 1;

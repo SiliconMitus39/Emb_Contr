@@ -9,6 +9,8 @@
 #define __CROS_EC_BOARD_H
 
 /* Optional modules */
+/* 48 MHz SYSCLK clock frequency */
+#define CPU_CLOCK 48000000
 #define CONFIG_ADC
 #undef  CONFIG_ADC_WATCHDOG
 #define CONFIG_CHIPSET_RK3399

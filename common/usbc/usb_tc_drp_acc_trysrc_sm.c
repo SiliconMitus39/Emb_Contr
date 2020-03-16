@@ -809,6 +809,7 @@ static void restart_tc_sm(int port, enum usb_tc_state start_state)
 
 	if (IS_ENABLED(CONFIG_CHARGE_MANAGER)) {
 		/* Initialize PD and type-C supplier current limits to 0 */
+		CPRINTF("Set Current Limit 2");
 		pd_set_input_current_limit(port, 0, 0);
 		typec_set_input_current_limit(port, 0, 0);
 		charge_manager_update_dualrole(port, CAP_UNKNOWN);
@@ -979,6 +980,7 @@ void tc_set_data_role(int port, enum pd_data_role role)
 
 static void sink_stop_drawing_current(int port)
 {
+	CPRINTF("Set Current Limit 3");
 	pd_set_input_current_limit(port, 0, 0);
 
 	if (IS_ENABLED(CONFIG_CHARGE_MANAGER)) {
